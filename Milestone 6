@@ -1,0 +1,20 @@
+library(tidyverse)
+
+citibike <- read.csv("202501-citibike-tripdata_75rows.csv")
+
+citibike_clean <- citibike %>%
+  filter(!is.na(start_lat), !is.na(end_lat))
+
+ggplot(citibike_clean, aes(x = start_lat, y = end_lat)) +
+  geom_point(alpha = 0.6) +
+  labs(
+    title = "Scatterplot of Start Latitude vs End Latitude",
+    x = "Start Latitude",
+    y = "End Latitude"
+  ) +
+  theme_minimal()
+
+cor(citibike_clean$start_lat,
+    citibike_clean$end_lat,
+    use = "complete.obs")
+
