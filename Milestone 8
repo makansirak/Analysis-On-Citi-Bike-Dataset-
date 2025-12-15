@@ -1,0 +1,56 @@
+> library(broom)
+> 
+> df <- read.csv("202501-citibike-tripdata_75rows.csv")
+> 
+> model <- lm(end_lng ~ start_lng + start_lat + end_lat, data = df)
+> 
+> summary(model)
+
+Call:
+lm(formula = end_lng ~ start_lng + start_lat + end_lat, data = df)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.037590 -0.006041 -0.000887  0.005866  0.034629 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -13.08599    4.94471  -2.646  0.01001 *  
+start_lng     0.89027    0.05231  17.018  < 2e-16 ***
+start_lat    -0.17343    0.09282  -1.868  0.06584 .  
+end_lat       0.29541    0.09040   3.268  0.00167 ** 
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.01173 on 71 degrees of freedom
+Multiple R-squared:  0.8485,	Adjusted R-squared:  0.8421 
+F-statistic: 132.5 on 3 and 71 DF,  p-value: < 2.2e-16
+
+> 
+> summary(model)$r.squared
+[1] 0.848457
+> summary(model)$adj.r.squared
+[1] 0.8420537
+> 
+> residuals <- resid(model)
+> 
+> hist(residuals, breaks = 15)
+> 
+> plot(df$end_lng, residuals)
+> abline(h = 0, lty = 2)
+> 
+> tidy(model)
+# A tibble: 4 × 5
+  term        estimate std.error statistic  p.value
+  <chr>          <dbl>     <dbl>     <dbl>    <dbl>
+1 (Intercept)  -13.1      4.94       -2.65 1.00e- 2
+2 start_lng      0.890    0.0523     17.0  9.25e-27
+3 start_lat     -0.173    0.0928     -1.87 6.58e- 2
+4 end_lat        0.295    0.0904      3.27 1.67e- 3
+> 
+> coef(model)
+(Intercept)   start_lng   start_lat     end_lat 
+-13.0859937   0.8902679  -0.1734255   0.2954059 
+> 
+>
