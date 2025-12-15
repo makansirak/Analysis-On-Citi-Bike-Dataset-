@@ -1,0 +1,35 @@
+> library(tidyverse)
+── Attaching core tidyverse packages ───────────────────
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.0.4     
+── Conflicts ────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package to force all conflicts to become errors
+> 
+> citibike <- read.csv("202501-citibike-tripdata_75rows.csv")
+> 
+> citibike <- citibike %>%
++     mutate(
++         started_at = as.POSIXct(started_at, format = "%Y-%m-%d %H:%M:%S"),
++         ended_at = as.POSIXct(ended_at, format = "%Y-%m-%d %H:%M:%S")
++     )
+> 
+> citibike_clean <- citibike %>%
++     filter(!is.na(started_at), !is.na(ended_at))
+> 
+> started_at_ci <- t.test(as.numeric(citibike_clean$started_at), conf.level = 0.95)$conf.int
+> ended_at_ci <- t.test(as.numeric(citibike_clean$ended_at), conf.level = 0.95)$conf.int
+> 
+> started_at_ci
+[1] 1736239588 1736390855
+attr(,"conf.level")
+[1] 0.95
+> ended_at_ci
+[1] 1736240082 1736391311
+attr(,"conf.level")
+[1] 0.95
+>  
