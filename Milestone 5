@@ -1,0 +1,30 @@
+ bike <- read.csv("202501-citibike-tripdata_75rows.csv")
+> 
+> num_data <- bike[sapply(bike, is.numeric)]
+> 
+> stats <- data.frame(
++     column = names(num_data),
++     mean = sapply(num_data, mean, na.rm = TRUE),
++     trimmed_mean = sapply(num_data, function(x) mean(x, trim = 0.1, na.rm = TRUE)),
++     median = sapply(num_data, median, na.rm = TRUE),
++     variance = sapply(num_data, var, na.rm = TRUE),
++     sd = sapply(num_data, sd, na.rm = TRUE)
++ )
+> 
+> stats
+                           column       mean trimmed_mean     median     variance
+start_station_id start_station_id 5661.17667   5650.39852 5636.13000 7.634328e+05
+end_station_id     end_station_id 5620.61093   5603.86918 5561.04000 8.022948e+05
+start_lat               start_lat   40.72761     40.72624   40.72706 9.784860e-04
+start_lng               start_lng  -73.97560    -73.97951  -73.98142 7.934120e-04
+end_lat                   end_lat   40.72691     40.72500   40.72318 1.043202e-03
+end_lng                   end_lng  -73.97632    -73.98120  -73.98660 8.706956e-04
+                           sd
+start_station_id 873.74639611
+end_station_id   895.70912214
+start_lat          0.03128076
+start_lng          0.02816757
+end_lat            0.03229863
+end_lng            0.02950755
+> 
+> 
