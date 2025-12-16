@@ -1,0 +1,32 @@
+bike <- read.csv("202501-citibike-tripdata_75rows.csv")
+
+bike$started_at <- as.POSIXct(bike$started_at)
+bike$ended_at <- as.POSIXct(bike$ended_at)
+
+bike$duration_min <- as.numeric(difftime(bike$ended_at,
+                                         bike$started_at,
+                                         units = "mins"))
+
+boxplot(duration_min ~ member_casual,
+        data = bike,
+        main = "Citi Bike Trip Duration by Rider Type",
+        xlab = "Rider Type",
+        ylab = "Trip Duration (minutes)")
+
+Second chart 
+bike <- read.csv("202501-citibike-tripdata_75rows.csv")
+
+bike$electric <- bike$rideable_type == "electric_bike"
+
+table_type <- table(bike$member_casual, bike$electric)
+
+fisher.test(table_type)
+
+prop_table <- prop.table(table_type, margin = 1)
+
+barplot(prop_table,
+        beside = TRUE,
+        legend.text = TRUE,
+        main = "Proportion of Electric Bike Use by Rider Type",
+        xlab = "Bike Type",
+        ylab = "Proportion")
