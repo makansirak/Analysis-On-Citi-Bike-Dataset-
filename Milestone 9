@@ -1,0 +1,42 @@
+> bike <- read.csv("202501-citibike-tripdata_75rows.csv")
+> 
+> bike$started_at <- as.POSIXct(bike$started_at)
+> bike$ended_at <- as.POSIXct(bike$ended_at)
+> 
+> bike$duration_min <- as.numeric(difftime(bike$ended_at,
++                                          bike$started_at,
++                                          units = "mins"))
+> 
+> t.test(duration_min ~ member_casual, data = bike)
+
+	Welch Two Sample t-test
+
+data:  duration_min by member_casual
+t = 0.83071, df = 3.3806, p-value = 0.4607
+alternative hypothesis: true difference in means between group casual and group member is not equal to 0
+95 percent confidence interval:
+ -2.870005  5.079264
+sample estimates:
+mean in group casual mean in group member 
+            8.984144             7.879515 
+
+> 
+> bike$electric <- bike$rideable_type == "electric_bike"
+> 
+> table_type <- table(bike$member_casual, bike$electric)
+> 
+> fisher.test(table_type)
+
+	Fisher's Exact Test for Count Data
+
+data:  table_type
+p-value = 1
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+  0.02247137 28.11834014
+sample estimates:
+odds ratio 
+  1.388137 
+
+> 
+> 
